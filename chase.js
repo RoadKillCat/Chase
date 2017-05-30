@@ -55,9 +55,9 @@ function startUp(){
 	lines = [
 	"",
 	"",
-	"The aim is to get past the pillars",
-	"for each step you take, the zombie",
-	"will also take one...",
+	"The aim is to get past the pillars.",
+	"Every time you take a step, the",
+	"zombie does to...",
 	"he will catch you.",
 	"",
 	"Full screen (F11) is recommended",

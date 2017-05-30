@@ -8,8 +8,19 @@ cnvs.height = height = innerHeight
 
 document.addEventListener("keydown", keyPress)
 
+window.addEventListener("resize", function(e){
+	cnvs.width = width = innerWidth
+	cnvs.height = height = innerHeight
+	startUp()
+} )
+
+
 function keyPress(event){
 	key = event.keyCode
+
+	if (key == 67) restart()				//c for restart
+	
+	if (playing){
 	
 	if (key == 88) cam.z -= cam.step		//x	fly down
 	if (key == 90) cam.z += cam.step		//z fly up
@@ -25,14 +36,17 @@ function keyPress(event){
 	if (key == 84) cam.roll  -= cam.lookStep			//t //roll right
 	if (key == 187) zombo.step += 0.2				//+ increase zombo step
 	if (key == 189) zombo.step -= 0.2				//- decrease zombo step
-	if (key == 67) restart()				//c for restart
 	if (key == 71) wireframe = !wireframe   //g toggle wireframe
 	
 	renderWorld()
+	
+	}
 }
 
 
 function startUp(){
+	playing = false
+	
 	ctx.textBaseline = "middle"
 	ctx.fillStyle = "#c6b9cc"
 	ctx.font = "150px cambria"
@@ -45,6 +59,8 @@ function startUp(){
 	"for each step you take, the zombie",
 	"will also take one...",
 	"he will catch you.",
+	"",
+	"Full screen (F11) is recommended",
 	"",
 	"Controls:",
 	"w: walk forward",
@@ -72,7 +88,8 @@ startUp()
 
 
 function restart(){
-
+	playing = true
+	
 	cam = {x: 0, y: -50, z: 10, pitch: 10, yaw: 0, roll: 0, fov: 100, step: 1, lookStep: 5}		//camera
 
 	zombo = { coords: zombie, c: "#c6b9cc", x: 0, y: 30, z: 0, yaw: 0, step: 1 }
@@ -111,7 +128,6 @@ function drawPoints(canvasCoordinates){	//acctually does the drawing of the coor
 	else sortedFaces = canvasCoordinates
 
 	//acctually draw the faces
-
 
 	for (s = 0; s < sortedFaces.length; s++){
 		face = sortedFaces[s]
@@ -213,9 +229,8 @@ function renderMiniMap(){										//renders the minimap
 	drawLine(centerX - mapWidth / 2, centerY + pointLower, centerX + mapWidth / 2, centerY + pointLower)
 	drawLine(centerX, centerY - (mapHeight / 2 + pointLower) + pointLower, centerX, centerY + mapHeight / 2)
 	
-	//ctx.fillStyle = "#00ffed"
+	
 	drawCircle(centerX + cam.x * scale, centerY + cam.y * scale * -1 + pointLower, dot / 2, "#00ffed")
-	//ctx.fillRect( - dot / 2 ,  - dot / 2 + pointLower, dot, dot)
 	
 	
 	
@@ -223,7 +238,6 @@ function renderMiniMap(){										//renders the minimap
 	ctx.beginPath(centerX + cam.x * scale, centerY + cam.y * scale * -1 + pointLower)
 	ctx.lineTo(centerX + (Math.sin(radFromDeg(cam.yaw - 0.5 * cam.fov)) * arrowLength) + cam.x * scale, centerY - (Math.cos(radFromDeg(cam.yaw - 0.5 * cam.fov)) * arrowLength) + cam.y * scale * -1 + pointLower)
 	ctx.arc(centerX + cam.x * scale, centerY + cam.y * scale * -1 + pointLower, arrowLength, radFromDeg(-90 - cam.fov * 0.5 + cam.yaw), radFromDeg(-90 + cam.fov * 0.5 + cam.yaw) )
-	//ctx.lineTo(centerX + (Math.sin(radFromDeg(cam.yaw + 0.5 * fov)) * arrowLength) + cam.x, centerY - (Math.cos(radFromDeg(cam.yaw + 0.5 * fov)) * arrowLength) + cam.y * -1 )
 	ctx.lineTo(centerX + cam.x * scale, centerY + cam.y * scale * -1 + pointLower)
 	ctx.closePath()
 	ctx.fill()
@@ -235,7 +249,7 @@ function renderHUD(){
 	ctx.font = fontSize.toString() + "px " + "aerial"
 	ctx.fillStyle = "red"
 	tables = [
-	//camRows
+	//cam table
 	[
 	["Camera:", ""],
 	["x", padLeft(cam.x)],
@@ -247,7 +261,7 @@ function renderHUD(){
 	["fov", padLeft(cam.fov)],
 	],
 	
-	//zombRows 
+	//zombie table 
 	[
 	["Zombie:", ""],
 	["x", padLeft(zombo.x)],
@@ -258,7 +272,7 @@ function renderHUD(){
 	["dist.", padLeft(distanceBetween(cam, zombo))]
 	],
 	
-	//controlRows
+	//controls
 	[
 	["Controls:", ""],
 	["w", "forward"],
@@ -269,7 +283,7 @@ function renderHUD(){
 	["e", "yaw right"],
 	["r", "pitch up"],
 	["f", "pitch down"],
-	["", "toggle wireframe"],
+	["g",  "wireframe"],
 	["+", "incr. diff."],
 	["-", "decr. diff."]
 	]

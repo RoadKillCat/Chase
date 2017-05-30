@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>STL to Coordinate Converter</title>
+		
+
+	</head>
+	
+	<body>
+		<textarea id="entry" rows="30" cols="45">paste stl file here</textarea>
+		<br>
+		<button type="button" onclick=convert()>convert 
+	<body/>
+	
+	<script>
+	
+	function convert(){
+		stl = document.getElementById("entry").value
+	
+		lines = stl.split("\n")
+		
+		coordinates = []
+		
+		var arrToObj = (a) => ({x:a[0], y:a[1], z:a[2]})
+
+		
+		for (l = 0; l < lines.length; l ++){
+			blocks = lines[l].trim().split(" ")
+			if (blocks[0] != "vertex") continue
+			blocks.splice(0,1)
+			coordinates.push(arrToObj(blocks.map(i => parseFloat(i))))
+		}
+		
+		//if want faces (i.e. coordinates grouped in trios) uncomment below...
+		
+		//for (s = 0; s < coordinates.length; s ++){
+		//	coordinates.splice(s,3,[coordinates[s],coordinates[s+1],coordinates[s+2]])
+		//}
+		
+		
+		document.getElementById("entry").value = JSON.stringify(coordinates)
+	}
+	</script>
+
+</html>

@@ -1,2 +1,2 @@
-# Welcome,
-click [this link](https://roadkillcat.github.io/Chase/chase.html) to **begin**
+# Welcome to chase
+Click [here](https://roadkillcat.github.io/Chase/chase.html) to *begin*, all will be explained on the first screen...

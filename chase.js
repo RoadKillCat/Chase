@@ -53,8 +53,6 @@ function startUp(){
 	ctx.textAlign = "center"
 	ctx.fillText("Welcome", width / 2, height / 5)
 	lines = [
-	"",
-	"",
 	"The aim is to get past the pillars.",
 	"Every time you take a step, the",
 	"zombie does to...",
@@ -78,9 +76,9 @@ function startUp(){
 	"c: begin"
 	]
 	ctx.textAlign = "left"
-	ctx.font = "25px cambria"
+	ctx.font = "20px cambria"
 	for (l = 0; l < lines.length; l ++){
-		ctx.fillText(lines[l], width / 2 - 200, height / 5 + l * 25 + 60)
+		ctx.fillText(lines[l], width / 2 - 200, height / 5 + l * 20 + 80)
 	}
 }
 
